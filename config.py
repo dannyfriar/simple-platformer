@@ -48,8 +48,13 @@ FLOOR_BLOCK = "res/floor_block.bmp"
 PILL = "res/pill.bmp"
 
 ## Sprite Sheets
-PLAYER_IMG = "res/character_sprite_sheet.bmp"
+PLAYER_IMG = "res/character_sprite_sheet_<direction>.bmp"
+PLAYER_IMG_LEFT = "res/character_sprite_sheet_left.bmp"
+PLAYER_IMG_RIGHT = "res/character_sprite_sheet_right.bmp"
 N_PLAYER_IMG = 4
+
+## Sounds
+START_MUSIC = 'res/Silent_Shout.wav'
 
 ##--- CREATE LEVEL ARRAY ----##
 

@@ -22,14 +22,18 @@ class Player(pygame.sprite.Sprite):
 		# self.image.fill(color)
 
 		##----- Image from spritesheet
-		## Load spritesheet
-		spritesheet = SpriteSheet(imageFile, imageN, width, height)
-		self.numImages = spritesheet.numImages
-		self.player_img = spritesheet.get_all_images()
+		playerImgRight = imageFile.replace('<direction>', 'right')
+		playerImgLeft = imageFile.replace('<direction>', 'left')
+
+		## Load spritesheets
+		self.spritesheetRight = SpriteSheet(playerImgRight, imageN, width, height)
+		self.spritesheetLeft = SpriteSheet(playerImgLeft, imageN, width, height)
+		self.numImages = self.spritesheetRight.numImages
+		self.playerImg = self.spritesheetRight.get_all_images()
 
 		## Display first image from spritesheet
 		self.cImage = 0
-		self.image = self.player_img[self.cImage]
+		self.image = self.playerImg[self.cImage]
 
 		## Rectangle
 		self.rect = self.image.get_rect()
@@ -137,15 +141,23 @@ class Player(pygame.sprite.Sprite):
 
 
 		##--- ANIMATION ---##
-		if self.vX != 0:
+		if (self.vX != 0) and (loopCount % int(FRAME_RATE / 300)) == 0:
+
 			## Get next sprite unless at end of sprite sheet i.e. animate
 			if (self.cImage >= self.numImages - 1):
 				self.cImage = 0
 			else:
 				self.cImage += 1
 
+			## Display correct sprite sheet based on direction of movement
+			if self.vX > 0:
+				self.playerImg = self.spritesheetRight.get_all_images()
+			else:
+				self.playerImg = self.spritesheetLeft.get_all_images()
+
 		## Get the corresponding player image	
-		self.image = self.player_img[self.cImage]
+		self.image = self.playerImg[self.cImage]
+		self.image.set_colorkey(BLUE)
 
 
 	def render(self, window):

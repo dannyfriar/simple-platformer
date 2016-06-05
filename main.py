@@ -85,6 +85,7 @@ def pause():
 	while paused:
 
 		## Display choice
+		pygame.mixer.music.pause()
 		text = font.render('Game paused! Space to continue or Esc to quit', 13, (0, 0, 0))
 		textx = GAME_WIDTH / 2 - text.get_width() / 2
 		texty = GAME_HEIGHT / 2 - text.get_height() / 2
@@ -100,6 +101,7 @@ def pause():
 				pygame.quit()
 			if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
 				paused = False
+				pygame.mixer.music.unpause()
 
 		clock.tick(FRAME_RATE)
 		pygame.display.flip()
@@ -119,6 +121,12 @@ def game_loop():
 	tokenList = create_level()[1]
 	camera = Camera(complex_camera, GAME_WIDTH * N_SCREENS, GAME_HEIGHT * N_SCREENS) # Instance of camera
 	player = Player(imageN=5) # Instance of player
+
+	## Start music
+	pygame.mixer.music.load(START_MUSIC)
+	pygame.mixer.music.play(-1)
+	pygame.mixer.music.set_volume(0.5)
+	# sound.play()
 
 	## Loop
 	while gameLoop:
@@ -186,6 +194,7 @@ def game_loop():
 ## Initialize PyGame and run game
 if __name__ == '__main__':
 	pygame.init()
+	pygame.mixer.music.set_volume(0.3)
 	window = pygame.display.set_mode((GAME_WIDTH, GAME_HEIGHT))
 	pygame.display.set_caption("Platformer")
 	clock = pygame.time.Clock()
